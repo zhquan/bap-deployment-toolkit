@@ -16,3 +16,16 @@ sortinghat_database: sortinghat_db
 mariadb_hosts: "{{ groups['mariadb'] | first }}"
 redis_database: "0"
 redis_hosts: "{{ groups['redis'] | first }}"
+
+# Nginx virtual hosts
+nginx_virtualhosts:
+  - tenant: example
+  - tenant: example2
+
+# Multi tenant
+sortinghat_multi_tenant: "false"
+sortinghat_multi_tenant_list_path: "{{ sortinghat_worker_workdir }}/sortinghat_multi_tenant_list_path.json"
+
+# OpenInfra
+sortinghat_openinfra_client_id: ""
+sortinghat_openinfra_client_secret: ""
