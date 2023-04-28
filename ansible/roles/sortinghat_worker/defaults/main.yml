@@ -22,6 +22,7 @@ nginx_virtualhosts:
   - tenant: example
   - tenant: example2
 
+sortinghat_worker_workdir: "/docker/sortinghat_worker"
 # Multi tenant
 sortinghat_multi_tenant: "false"
 sortinghat_multi_tenant_list_path: "{{ sortinghat_worker_workdir }}/sortinghat_multi_tenant_list_path.json"
