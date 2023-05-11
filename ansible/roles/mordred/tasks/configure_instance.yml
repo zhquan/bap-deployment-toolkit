@@ -34,7 +34,8 @@
     mode: '0640'
 
 - name: Checkout sources repo
-  become: false
+  become: true
+  become_user: grimoire
   git:
     repo: "{{ instance.sources.repository }}"
     dest: "{{ instance_dir }}/sources"
