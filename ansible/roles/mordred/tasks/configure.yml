@@ -17,27 +17,42 @@
     path: "{{ mordred_ssh_dir }}/id_rsa"
   register: sshkey
 
-- name: Copy a custom SSH key pair
-  copy:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    mode: "{{ item.mode }}"
-  loop:
-    - src: "{{ mordred_ssh_key.private }}"
-      dest: "{{ mordred_ssh_dir }}/id_rsa"
-      mode: '0750'
-    - src: "{{ mordred_ssh_key.public }}"
-      dest: "{{ mordred_ssh_dir }}/id_rsa.pub"
-      mode: '0750'
-  when:
-    - not sshkey.stat.exists
-    - mordred_ssh_key is defined
-
 - name: Create SSH key pair
-  command: "ssh-keygen -t rsa -b 4096 -q -N '' -f {{ mordred_ssh_dir }}/id_rsa"
+  command: "ssh-keygen -t rsa -b 4096 -q -N '' -f /tmp/id_rsa"
+  become: false
+  delegate_to: localhost
   when:
     - not sshkey.stat.exists
     - mordred_ssh_key is not defined
+
+- name: Copy SSH key pair
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: '1000'
+    group: '1000'
+    mode: "{{ item.mode }}"
+  loop:
+    - src: "{{ mordred_ssh_key.private if mordred_ssh_key is defined else '/tmp/id_rsa' }}"
+      dest: "{{ mordred_ssh_dir }}/id_rsa"
+      mode: '0600'
+    - src: "{{ mordred_ssh_key.public if mordred_ssh_key is defined else '/tmp/id_rsa.pub' }}"
+      dest: "{{ mordred_ssh_dir }}/id_rsa.pub"
+      mode: '0644'
+  when:
+    - not sshkey.stat.exists
+
+- name: Clean up /tmp/id_rsa if exist
+  file:
+    path: /tmp/id_rsa
+    state: absent
+  delegate_to: localhost
+
+- name: Clean up /tmp/id_rsa.pub if exist
+  file:
+    path: /tmp/id_rsa.pub
+    state: absent
+  delegate_to: localhost
 
 - name: Set SSH default config for user 'git'
   copy:
