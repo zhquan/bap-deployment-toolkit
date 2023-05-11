@@ -1,6 +1,11 @@
 ---
 
-- name: Create user 'grimoire'
+- name: Create group grimoire
+  group:
+    name: grimoire
+    state: present
+
+- name: Create user grimoire
   user:
     name: grimoire
     groups: grimoire
