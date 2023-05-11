@@ -88,6 +88,7 @@
     label: "{{ instance.project }}"
 
 - name: Checkout mordred setups repo
+  become: false
   git:
     repo: "{{ mordred_setups_repo_url }}"
     dest: "{{ mordred_setups_dir }}"
