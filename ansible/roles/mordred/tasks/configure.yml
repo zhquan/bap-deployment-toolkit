@@ -4,8 +4,8 @@
   file:
     path: "{{ item }}"
     state: directory
-    owner: '1000'
-    group: '1000'
+    owner: grimoire
+    group: grimoire
     mode: 0750
     recurse: true
   with_items:
@@ -19,30 +19,39 @@
     path: "{{ mordred_ssh_dir }}/id_rsa"
   register: sshkey
 
-- name: Create SSH key pair
-  command: "ssh-keygen -t rsa -b 4096 -q -N '' -f /tmp/id_rsa"
-  become: false
-  delegate_to: localhost
-  when:
-    - not sshkey.stat.exists
-    - mordred_ssh_key is not defined
-
-- name: Copy SSH key pair
+- name: Copy a custom SSH key pair
   copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    owner: '1000'
-    group: '1000'
+    owner: grimoire
+    group: grimoire
     mode: "{{ item.mode }}"
   loop:
-    - src: "{{ mordred_ssh_key.private if mordred_ssh_key is defined else '/tmp/id_rsa' }}"
+    - src: "{{ mordred_ssh_key.private }}"
       dest: "{{ mordred_ssh_dir }}/id_rsa"
       mode: '0600'
-    - src: "{{ mordred_ssh_key.public if mordred_ssh_key is defined else '/tmp/id_rsa.pub' }}"
+    - src: "{{ mordred_ssh_key.public }}"
       dest: "{{ mordred_ssh_dir }}/id_rsa.pub"
       mode: '0644'
   when:
     - not sshkey.stat.exists
+    - mordred_ssh_key is defined
+
+- name: Copy grimoire user SSH key pair
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: grimoire
+    group: grimoire
+    remote_src: true
+  loop:
+    - src: "/home/grimoire/.ssh/id_rsa"
+      dest: "{{ mordred_ssh_dir }}/id_rsa"
+    - src: "/home/grimoire/.ssh/id_rsa.pub"
+      dest: "{{ mordred_ssh_dir }}/id_rsa.pub"
+  when:
+    - not sshkey.stat.exists
+    - mordred_ssh_key is not defined
 
 - name: Clean up /tmp/id_rsa if exist
   file:
@@ -65,8 +74,8 @@
   get_url:
     url: "{{ mordred_aliases_url }}"
     dest: "/tmp/aliases.json"
-    owner: '1000'
-    group: '1000'
+    owner: grimoire
+    group: grimoire
     mode: '0644'
   register: upstream_aliases
   delegate_to: localhost
