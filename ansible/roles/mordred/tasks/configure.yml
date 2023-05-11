@@ -74,8 +74,8 @@
   get_url:
     url: "{{ mordred_aliases_url }}"
     dest: "/tmp/aliases.json"
-    owner: grimoire
-    group: grimoire
+    owner: '1000'
+    group: '1000'
     mode: '0644'
   register: upstream_aliases
   delegate_to: localhost
