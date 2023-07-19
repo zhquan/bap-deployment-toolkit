@@ -22,6 +22,8 @@
     state: absent
   with_items:
     - "{{ mordred_instances }}"
+  when:
+    - item.deploy is defined and item.deploy
 
 - name: docker
   docker_container:
@@ -36,3 +38,5 @@
     - "{{ mordred_instances_dir }}/{{ item.project }}/perceval-cache/:/home/grimoire/.perceval/"
   with_items:
     - "{{ mordred_instances }}"
+  when:
+    - item.deploy is defined and item.deploy

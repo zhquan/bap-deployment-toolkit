@@ -107,3 +107,5 @@
   retries: 10
   delay: 2
   become: false
+  when:
+    - instance.deploy is defined and instance.deploy
