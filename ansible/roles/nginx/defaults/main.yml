@@ -17,8 +17,8 @@ instance:
   fqdn: example.com
 
 # Service hosts
-opensearch_endpoint: "https://{{ ansible_default_ipv4.address | list if 'all_in_one' in groups else  hostvars[(groups['opensearch'][0])].ansible_default_ipv4.address }}:9200"
-#sortinghat_host: "{{ ansible_default_ipv4.address if 'all_in_one' in groups else  hostvars[(groups['sortinghat'][0])].ansible_default_ipv4.address }}:9314"
+opensearch_endpoint: "https://{{ ansible_default_ipv4.address | list if 'all_in_one' in groups else  hostvars[(groups['opensearch_manager'][0])].ansible_default_ipv4.address }}:9200"
+sortinghat_host: "{{ ansible_default_ipv4.address if 'all_in_one' in groups else  hostvars[(groups['sortinghat'][0])].ansible_default_ipv4.address }}:9314"
 
 # Certificates configuration
 ## Let's Encrypt configuration
