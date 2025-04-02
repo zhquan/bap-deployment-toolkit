@@ -3,7 +3,7 @@
     opensearch_node_roles: ["data", "ingest"]
     opensearch_volume: opensearch-data
     opensearch_docker_container: bap_opensearch_data
-    node_name: "{{ opensearch_docker_container }}"
+    node_name: bap_opensearch_data
 
 - name: Setup OpenSearch data configuration
   template:
