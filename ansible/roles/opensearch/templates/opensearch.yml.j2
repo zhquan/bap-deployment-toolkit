@@ -10,7 +10,7 @@ cluster.initial_master_nodes: bap_opensearch_manager
 {% else %}
 discovery.seed_hosts: {{ discovery_seed_hosts }}
 cluster.initial_master_nodes: {{ cluster_initial_manager_nodes }}
-{% endif %}}
+{% endif %}
 ######## OpenSearch Security Configuration #########
 plugins.security.ssl.transport.pemcert_filepath: {{ certs_files.node_cert }}
 plugins.security.ssl.transport.pemkey_filepath: {{ certs_files.node_key }}
