@@ -63,7 +63,7 @@
 
 - name: OpenSearch data node
   import_tasks: opensearch_data.yml
-  when: "'opensearch-data' in inventory_hostname"
+  when: "'opensearch-data' in inventory_hostname or 'all_in_one' in groups"
 
 - name: Init OpenSearch security plugin
   import_tasks: security_admin.yml

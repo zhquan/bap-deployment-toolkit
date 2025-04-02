@@ -6,7 +6,7 @@
 - name: Setup OpenSearch manager configuration
   template:
     src: opensearch.yml.j2
-    dest: "{{ opensearch_workdir }}/opensearch.yml"
+    dest: "{{ opensearch_workdir }}/opensearch_manager.yml"
     owner: '1000'
     group: '1000'
     mode: 0660
@@ -38,7 +38,7 @@
       - "{{ certs_dir }}/{{ certs_files.node_cert }}:/usr/share/opensearch/config/{{ certs_files.node_cert }}"
       - "{{ certs_dir }}/{{ certs_files.node_key }}:/usr/share/opensearch/config/{{ certs_files.node_key }}"
       - "{{ opensearch_volume }}:/usr/share/opensearch/data"
-      - "{{ opensearch_workdir }}/opensearch.yml:/usr/share/opensearch/config/opensearch.yml"
+      - "{{ opensearch_workdir }}/opensearch_manager.yml:/usr/share/opensearch/config/opensearch.yml"
       - "{{ opensearch_workdir }}/log4j2.properties:/usr/share/opensearch/config/log4j2.properties"
       - "{{ opensearch_security_dir }}/config.yml:/usr/share/opensearch/config/opensearch-security/config.yml"
       - "{{ opensearch_security_dir }}/internal_users.yml:/usr/share/opensearch/config/opensearch-security/internal_users.yml"

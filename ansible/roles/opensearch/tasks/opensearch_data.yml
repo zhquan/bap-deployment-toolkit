@@ -6,7 +6,7 @@
 - name: Setup OpenSearch data configuration
   template:
     src: opensearch.yml.j2
-    dest: "{{ opensearch_workdir }}/opensearch.yml"
+    dest: "{{ opensearch_workdir }}/opensearch_data.yml"
     owner: '1000'
     group: '1000'
     mode: 0660
@@ -38,20 +38,13 @@
       - "{{ certs_dir }}/{{ certs_files.node_cert }}:/usr/share/opensearch/config/{{ certs_files.node_cert }}"
       - "{{ certs_dir }}/{{ certs_files.node_key }}:/usr/share/opensearch/config/{{ certs_files.node_key }}"
       - "{{ opensearch_volume }}:/usr/share/opensearch/data"
-      - "{{ opensearch_workdir }}/opensearch.yml:/usr/share/opensearch/config/opensearch.yml"
+      - "{{ opensearch_workdir }}/opensearch_data.yml:/usr/share/opensearch/config/opensearch.yml"
       - "{{ opensearch_workdir }}/log4j2.properties:/usr/share/opensearch/config/log4j2.properties"
       - "{{ opensearch_security_dir }}/config.yml:/usr/share/opensearch/config/opensearch-security/config.yml"
       - "{{ opensearch_security_dir }}/internal_users.yml:/usr/share/opensearch/config/opensearch-security/internal_users.yml"
       - "{{ opensearch_security_dir }}/roles_mapping.yml:/usr/share/opensearch/config/opensearch-security/roles_mapping.yml"
       - "{{ opensearch_security_backup_dir }}:/tmp/backup/"
       - "{{ opensearch_logs_dir }}:/usr/share/opensearch/logs"
-    ports:
-      - "{{ network.publish_host }}:9200:9200"
-      - "{{ network.publish_host }}:9300:9300"
-      - "{{ network.publish_host }}:9600:9600"
-      - "127.0.0.1:9200:9200"
-      - "127.0.0.1:9300:9300"
-      - "127.0.0.1:9600:9600"
     exposed_ports:
       - "9200"
       - "9300"
