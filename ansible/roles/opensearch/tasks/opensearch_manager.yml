@@ -3,7 +3,7 @@
     opensearch_node_roles: ["cluster_manager"]
     opensearch_volume: opensearch-manager
     opensearch_docker_container: bap_opensearch_manager
-    node_name: manager
+    node_name: "{{ opensearch_docker_container }}"
 
 - name: Setup OpenSearch manager configuration
   template:
